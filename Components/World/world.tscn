@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://by8pexpvb70gh"]
+
+[ext_resource type="PackedScene" uid="uid://cwd5k456stmes" path="res://Components/Player/player.tscn" id="1_vmy0p"]
+[ext_resource type="PackedScene" uid="uid://b8h64m66ie4rb" path="res://Environments/TestEnvironment.tscn" id="2_v7tle"]
+
+[node name="World" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_vmy0p")]
+
+[node name="Environment" parent="." instance=ExtResource("2_v7tle")]
+
+[node name="NetworkManager" type="Node" parent="."]

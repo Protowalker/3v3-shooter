@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://duljipv6bs7ei"]
+
+[resource]
+diffuse_mode = 1
+albedo_color = Color(0.780392, 0.780392, 0.780392, 1)
+emission_enabled = true
+backlight = Color(0.321569, 0.321569, 0.321569, 1)

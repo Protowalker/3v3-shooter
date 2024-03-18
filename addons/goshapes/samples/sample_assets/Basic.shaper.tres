@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="BlockShaper" load_steps=8 format=3 uid="uid://dly7aamoibjqn"]
+
+[ext_resource type="Script" path="res://addons/goshapes/MeshShaper/Shapers/BottomShaper.gd" id="1_5bjbx"]
+[ext_resource type="Script" path="res://addons/goshapes/MeshShaper/Shapers/CapFlatShaper.gd" id="2_6wmwc"]
+[ext_resource type="Script" path="res://addons/goshapes/MeshShaper/BlockShaper.gd" id="3_ykx3b"]
+[ext_resource type="Script" path="res://addons/goshapes/MeshShaper/Shapers/WallBevelShaper.gd" id="4_top7b"]
+
+[sub_resource type="Resource" id="Resource_lo5ax"]
+script = ExtResource("1_5bjbx")
+base_depth = 0.0
+enabled = true
+
+[sub_resource type="Resource" id="Resource_bevfv"]
+script = ExtResource("2_6wmwc")
+conform_to_wall = false
+build_collider = true
+collision_layer = 1
+enabled = true
+
+[sub_resource type="Resource" id="Resource_vny8q"]
+script = ExtResource("4_top7b")
+height = 5.2
+bevel = 0.0
+taper = 0.0
+build_collider = true
+collision_layer = 1
+enabled = true
+
+[resource]
+script = ExtResource("3_ykx3b")
+cap_shaper = SubResource("Resource_bevfv")
+wall_shaper = SubResource("Resource_vny8q")
+bottom_shaper = SubResource("Resource_lo5ax")
+bottom_depth = 0.0
+collider_type = 2
+collider_ridge = 0.0
+enabled = true
