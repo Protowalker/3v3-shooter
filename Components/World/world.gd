@@ -3,6 +3,8 @@ extends Node3D
 
 @onready var players: Node3D = $Players
 
+signal player_joined(id: int, player: Player)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# We only need to spawn players on the server.
@@ -31,8 +33,14 @@ func add_player(id: int) -> void:
 	character.bus.multiplayer_id = id
 	character.name = str(id)
 	players.add_child(character, true)
+	_emit_player_joined.rpc(id)
 	
 func del_player(id: int) -> void:
 	if not $Players.has_node(str(id)):
 		return
 	players.get_node(str(id)).queue_free()
+	
+@rpc("authority", "call_local")
+func _emit_player_joined(id: int):
+	var player := players.get_node(str(id))
+	player_joined.emit(id, player)

@@ -1,18 +1,7 @@
 extends Node
 
 var world := preload("res://Components/World/world.tscn")
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 	
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 
 func host_game(port: int) -> void:
 	var peer := ENetMultiplayerPeer.new()
@@ -35,3 +24,5 @@ func join_game(address: String, port: int) -> void:
 
 func _start_game() -> void:
 	get_tree().change_scene_to_packed(world)
+
+

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cwd5k456stmes"]
+[gd_scene load_steps=17 format=3 uid="uid://cwd5k456stmes"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_ej5hw"]
 [ext_resource type="Script" path="res://Components/Player/InputController.gd" id="1_kfjew"]
@@ -8,10 +8,10 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="6_o474r"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_36y70"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_n3b7k"]
+[ext_resource type="Script" path="res://Components/Player/MultiplayerController.gd" id="9_rji2p"]
+[ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="10_23c22"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dn2mj"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_tkwc4"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cdpnj"]
 properties/0/path = NodePath(".:jump")
@@ -31,15 +31,11 @@ size = Vector3(1.57355, 1.74121, 1.76978)
 size = Vector3(1.01, 0.25, 1.01)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qe1dx"]
-properties/0/path = NodePath(".:velocity")
+properties/0/path = NodePath("PlayerBus:multiplayer_id")
 properties/0/spawn = true
 properties/0/replication_mode = 2
-properties/1/path = NodePath(".:position")
-properties/1/spawn = true
-properties/1/replication_mode = 2
-properties/2/path = NodePath("PlayerBus:multiplayer_id")
-properties/2/spawn = true
-properties/2/replication_mode = 2
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tkwc4"]
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("bus")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03592, 0)
@@ -50,9 +46,6 @@ bus = NodePath("PlayerBus")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_dn2mj")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
-mesh = SubResource("CapsuleMesh_tkwc4")
-
 [node name="InputController" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("bus")]
 root_path = NodePath(".")
 replication_config = SubResource("SceneReplicationConfig_cdpnj")
@@ -60,21 +53,19 @@ script = ExtResource("1_kfjew")
 mouse_sensitivity = 30
 bus = NodePath("../PlayerBus")
 
-[node name="Camera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.481128, 0)
-
 [node name="CameraController" type="Node" parent="." node_paths=PackedStringArray("camera", "head", "bus")]
 script = ExtResource("2_7sfno")
 camera = NodePath("../Camera")
 head = NodePath("../Head")
 bus = NodePath("../PlayerBus")
 
-[node name="PlayerBus" type="Node" parent="." node_paths=PackedStringArray("input", "head", "camera_controller", "player")]
+[node name="PlayerBus" type="Node" parent="." node_paths=PackedStringArray("input", "head", "camera_controller", "player", "mp")]
 script = ExtResource("4_foldq")
 input = NodePath("../InputController")
 head = NodePath("../Head")
 camera_controller = NodePath("../CameraController")
 player = NodePath("..")
+mp = NodePath("../MultiplayerController")
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("5_7vhg6")
@@ -123,6 +114,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.594662, 0)
 
 [node name="PlayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_qe1dx")
+
+[node name="MultiplayerController" type="Node" parent="." node_paths=PackedStringArray("bus")]
+script = ExtResource("9_rji2p")
+bus = NodePath("../PlayerBus")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.481128, 0)
+
+[node name="Smoothing" type="Node3D" parent="."]
+script = ExtResource("10_23c22")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Smoothing"]
+mesh = SubResource("CapsuleMesh_tkwc4")
 
 [connection signal="aim_angle_changed" from="InputController" to="PlayerBus" method="_on_aim_angle_changed"]
 [connection signal="aim_angle_set" from="InputController" to="PlayerBus" method="_on_aim_angle_set"]

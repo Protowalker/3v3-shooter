@@ -5,6 +5,7 @@ class_name PlayerBus
 @export var head: Node3D
 @export var camera_controller: CameraController
 @export var player: Player
+@export var mp: MultiplayerController
 
 var multiplayer_id := 1 :
 	set(id):

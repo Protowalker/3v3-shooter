@@ -25,7 +25,7 @@ func _physics_process(delta):
 
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir := bus.input.input_direction
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	var target_velocity := Vector3.ZERO
 	target_velocity.y = velocity.y
 	if direction:
@@ -75,3 +75,19 @@ func _try_to_step_up_small_ledges():
 			distance += 0.01
 		if !failure:
 			move_and_collide(velocity_ignore_height.normalized()*0.02)
+
+
+func pack() -> Dictionary:
+	var dict := {
+		"position": position,
+		"cam_rotation": bus.input.cam_rotation,
+		"velocity": velocity
+	}
+	
+	return dict
+
+func unpack(current_tick: int, server_tick: int, new_dict: Dictionary):
+	bus.mp.update_player(current_tick, server_tick, new_dict)
+
+func log_current_input(current_tick: int):
+	bus.mp.log_current_input(current_tick)

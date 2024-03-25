@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://by8pexpvb70gh"]
+[gd_scene load_steps=4 format=3 uid="uid://by8pexpvb70gh"]
 
 [ext_resource type="Script" path="res://Components/World/world.gd" id="1_xiry1"]
 [ext_resource type="PackedScene" uid="uid://b8h64m66ie4rb" path="res://Environments/TestEnvironment.tscn" id="2_v7tle"]
+[ext_resource type="Script" path="res://Components/World/WorldNetworkManager.gd" id="3_dljrp"]
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_xiry1")
@@ -20,3 +21,9 @@ spawn_path = NodePath("../Players")
 [node name="Environment" type="Node3D" parent="."]
 
 [node name="Environment" parent="Environment" instance=ExtResource("2_v7tle")]
+
+[node name="WorldNetworkManager" type="Node" parent="." node_paths=PackedStringArray("players_node")]
+script = ExtResource("3_dljrp")
+players_node = NodePath("../Players")
+
+[connection signal="player_joined" from="." to="WorldNetworkManager" method="_on_player_joined"]

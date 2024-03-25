@@ -3,7 +3,6 @@ class_name InputController
 
 @export var mouse_sensitivity := 10
 
-
 var jump := ButtonStator.get_empty()
 
 var input_direction := Vector2()
@@ -29,7 +28,6 @@ func _ready():
 	get_last_exclusive_window().focus_entered.connect(_on_focus_entered)
 
 func _process(_delta):
-	jump = ButtonStator.get_value_for_input(InputActions.jump)
 	_update_move()
 
 
@@ -39,9 +37,12 @@ func _on_focus_entered():
 
 func _input(event: InputEvent):
 	if !get_last_exclusive_window().has_focus():
-		return
+		return	
 	if event.is_action(InputActions.pause):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		
+	if event.is_action(InputActions.jump):
+		jump = ButtonStator.get_value_for_input(InputActions.jump)	
 		
 	if event is InputEventMouseMotion:
 		var change: Vector2 = -event.relative * mouse_sensitivity/360
@@ -55,3 +56,14 @@ func _update_move() -> void:
 									 InputActions.move_forward, 
 									 InputActions.move_backward)
 	
+	
+func pack(current_tick: int) -> Dictionary:
+	return {
+		"jump": jump,
+		"input_direction": input_direction,
+		"tick": current_tick
+	}
+
+func unpack(new_data: Dictionary):
+	jump = new_data.jump
+	input_direction = new_data.input_direction
