@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="ToolTag" load_steps=4 format=3 uid="uid://c648hs1r46mat"]
+
+[ext_resource type="Texture2D" uid="uid://bwasqbq4iqkn6" path="res://addons/cyclops_level_builder/art/icons/block.svg" id="1_qojcl"]
+[ext_resource type="Script" path="res://addons/cyclops_level_builder/resources/tool_tag.gd" id="1_vgbvo"]
+[ext_resource type="Script" path="res://addons/cyclops_level_builder/tools/tool_block.gd" id="3_52q4h"]
+
+[resource]
+script = ExtResource("1_vgbvo")
+id = "block"
+name = "Block"
+tooltip = "Block
+
+Click and drag in empty space or on unselected block to create a new block.
+
+Click and drag on a selected block to move it in the XZ plane.  Hold Alt to drag along the Y axis.
+
+Ctrl-click and drag on the face of a block to move the face along its normal.
+
+Escape or right click to cancel drawing the block.
+
+Click on block to select it.  Shift-Click toggles, Ctrl-Click adds and Shift-Ctrl Click subtracts.
+
+Click in empty space to clear selection."
+icon = ExtResource("1_qojcl")
+tool_script = ExtResource("3_52q4h")
