@@ -26,8 +26,8 @@ enum Screen {
 	
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	for key in screens:
+func _ready() -> void:
+	for key: Screen in screens:
 		if key == current_screen:
 			screens.get(key).process_mode = Node.PROCESS_MODE_INHERIT
 			screens.get(key).visible = true
@@ -43,5 +43,5 @@ func change_screen(screen: Screen) -> void:
 	current_screen = screen
 
 
-func _on_go_to_screen(screen: Screen):
+func _on_go_to_screen(screen: Screen) -> void:
 	change_screen(screen)

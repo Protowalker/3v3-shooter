@@ -19,6 +19,21 @@ config/icon="res://icon.svg"
 
 CyclopsAutoload="*res://addons/cyclops_level_builder/cyclops_global_scene.tscn"
 NetworkManager="*res://Singletons/NetworkManager.tscn"
+NetworkTime="*res://addons/netfox/network-time.gd"
+NetworkTimeSynchronizer="*res://addons/netfox/network-time-synchronizer.gd"
+NetworkRollback="*res://addons/netfox/rollback/network-rollback.gd"
+NetworkEvents="*res://addons/netfox/network-events.gd"
+NetworkPerformance="*res://addons/netfox/network-performance.gd"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=2
+gdscript/warnings/unsafe_property_access=1
+gdscript/warnings/unsafe_method_access=1
+gdscript/warnings/unsafe_cast=1
+gdscript/warnings/unsafe_call_argument=1
+gdscript/warnings/unsafe_void_return=2
+gdscript/warnings/static_called_on_instance=2
 
 [dotnet]
 
@@ -31,7 +46,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/cyclops_level_builder/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/goshapes/plugin.cfg", "res://addons/smoothing/plugin.cfg", "res://addons/typed_inputs/plugin.cfg")
+enabled=PackedStringArray("res://addons/cyclops_level_builder/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg", "res://addons/goshapes/plugin.cfg", "res://addons/netfox.extras/plugin.cfg", "res://addons/netfox.internals/plugin.cfg", "res://addons/netfox/plugin.cfg", "res://addons/smoothing/plugin.cfg", "res://addons/typed_inputs/plugin.cfg")
 
 [input]
 

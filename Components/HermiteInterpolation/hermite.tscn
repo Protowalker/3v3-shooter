@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://x3xfcjp2q7sq"]
+
+[ext_resource type="Script" path="res://Components/HermiteInterpolation/hermite.gd" id="1_okirh"]
+
+[node name="Hermite" type="Node3D"]
+script = ExtResource("1_okirh")

@@ -1,0 +1,127 @@
+[gd_scene load_steps=15 format=3 uid="uid://cwd5k456stmes"]
+
+[ext_resource type="Script" path="res://Components/Player/player.gd" id="1_ej5hw"]
+[ext_resource type="Script" path="res://Components/Player/InputController.gd" id="1_kfjew"]
+[ext_resource type="Script" path="res://Components/Player/CameraController.gd" id="2_7sfno"]
+[ext_resource type="Script" path="res://Components/Player/Bus.gd" id="4_foldq"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="5_7vhg6"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="6_o474r"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_36y70"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_n3b7k"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dn2mj"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tkwc4"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cdpnj"]
+properties/0/path = NodePath(".:jump")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:input_direction")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("../Head:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("../Camera3D:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c6hf7"]
+size = Vector3(1.57355, 1.74121, 1.76978)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1mchn"]
+size = Vector3(1.01, 0.25, 1.01)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qe1dx"]
+properties/0/path = NodePath(".:velocity")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("bus")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03592, 0)
+floor_constant_speed = true
+script = ExtResource("1_ej5hw")
+bus = NodePath("PlayerBus")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_dn2mj")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+mesh = SubResource("CapsuleMesh_tkwc4")
+
+[node name="InputController" type="MultiplayerSynchronizer" parent="."]
+unique_name_in_owner = true
+root_path = NodePath(".")
+replication_config = SubResource("SceneReplicationConfig_cdpnj")
+script = ExtResource("1_kfjew")
+mouse_sensitivity = 30
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.481128, 0)
+
+[node name="CameraController" type="Node" parent="." node_paths=PackedStringArray("camera", "head", "bus")]
+script = ExtResource("2_7sfno")
+camera = NodePath("../Camera3D")
+head = NodePath("../Head")
+bus = NodePath("../PlayerBus")
+
+[node name="PlayerBus" type="Node" parent="."]
+script = ExtResource("4_foldq")
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("5_7vhg6")
+
+[node name="ParallelState" type="Node" parent="StateChart"]
+script = ExtResource("6_o474r")
+
+[node name="CompoundState" type="Node" parent="StateChart/ParallelState"]
+script = ExtResource("7_36y70")
+initial_state = NodePath("AtomicState")
+
+[node name="AtomicState" type="Node" parent="StateChart/ParallelState/CompoundState"]
+script = ExtResource("8_n3b7k")
+
+[node name="AtomicState2" type="Node" parent="StateChart/ParallelState/CompoundState"]
+script = ExtResource("8_n3b7k")
+
+[node name="CompoundState2" type="Node" parent="StateChart/ParallelState"]
+script = ExtResource("7_36y70")
+initial_state = NodePath("AtomicState")
+
+[node name="AtomicState" type="Node" parent="StateChart/ParallelState/CompoundState2"]
+script = ExtResource("8_n3b7k")
+
+[node name="AtomicState2" type="Node" parent="StateChart/ParallelState/CompoundState2"]
+script = ExtResource("8_n3b7k")
+
+[node name="DontStairTrigger" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.246126, 0)
+collision_layer = 0
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DontStairTrigger"]
+transform = Transform3D(1.00352, 0, 0, 0, 1.00352, 0, 0, 0, 1.00352, -0.0162006, 0.422624, 0.000122502)
+shape = SubResource("BoxShape3D_c6hf7")
+
+[node name="StairCast" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.828823, 0)
+shape = SubResource("BoxShape3D_1mchn")
+target_position = Vector3(0, 0, 0)
+collision_mask = 2
+
+[node name="Head" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.594662, 0)
+
+[node name="PlayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qe1dx")
+
+[connection signal="aim_angle_changed" from="InputController" to="PlayerBus" method="_on_aim_angle_changed"]
+[connection signal="aim_angle_set" from="InputController" to="PlayerBus" method="_on_aim_angle_set"]
+[connection signal="aim_angle_changed" from="PlayerBus" to="." method="_on_aim_angle_changed"]
+[connection signal="aim_angle_changed" from="PlayerBus" to="CameraController" method="_on_aim_angle_changed"]

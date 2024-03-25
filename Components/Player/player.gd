@@ -11,10 +11,9 @@ const AIR_ACCEL := 5.0
 const JUMP_VELOCITY := 4.5
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-func _physics_process(delta):
-	
+func _rollback_tick(delta: float, _tick: int, _is_fresh: bool) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -41,13 +40,15 @@ func _physics_process(delta):
 	
 	_try_to_step_up_small_ledges()
 	
+	velocity *= NetworkTime.physics_factor
 	move_and_slide()
+	velocity /= NetworkTime.physics_factor
+	
 	
 func set_yaw(yaw: float) -> void:
 	self.rotation.y = deg_to_rad(yaw)
 
-
-func _try_to_step_up_small_ledges():
+func _try_to_step_up_small_ledges() -> void:
 	if !is_on_floor():
 		return
 	stair_cast.force_shapecast_update()
@@ -75,19 +76,3 @@ func _try_to_step_up_small_ledges():
 			distance += 0.01
 		if !failure:
 			move_and_collide(velocity_ignore_height.normalized()*0.02)
-
-
-func pack() -> Dictionary:
-	var dict := {
-		"position": position,
-		"cam_rotation": bus.input.cam_rotation,
-		"velocity": velocity
-	}
-	
-	return dict
-
-func unpack(current_tick: int, server_tick: int, new_dict: Dictionary):
-	bus.mp.update_player(current_tick, server_tick, new_dict)
-
-func log_current_input(current_tick: int):
-	bus.mp.log_current_input(current_tick)

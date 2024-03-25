@@ -1,5 +1,5 @@
 extends Object
-class_name ButtonStator
+class_name ButtonState
 
 var input_name: StringName
 
@@ -7,7 +7,7 @@ var just := false
 var currently := false
 var just_released := false
 
-func _init(_input_name: StringName):
+func _init(_input_name: StringName) -> void:
 	self.input_name = _input_name
 
 	update()

@@ -6,7 +6,7 @@ extends Node3D
 signal player_joined(id: int, player: Player)
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	# We only need to spawn players on the server.
 	if not multiplayer.is_server():
 		return
@@ -22,7 +22,7 @@ func _ready():
 	if not OS.has_feature("dedicated_server"):
 		add_player(1)
 
-func _exit_tree():
+func _exit_tree() -> void:
 	if not multiplayer.is_server():
 		return
 	multiplayer.peer_connected.disconnect(add_player)
@@ -41,6 +41,6 @@ func del_player(id: int) -> void:
 	players.get_node(str(id)).queue_free()
 	
 @rpc("authority", "call_local")
-func _emit_player_joined(id: int):
+func _emit_player_joined(id: int) -> void:
 	var player := players.get_node(str(id))
 	player_joined.emit(id, player)
