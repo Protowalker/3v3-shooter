@@ -39,22 +39,36 @@ func _physics_process(delta):
 	
 	velocity = velocity.move_toward(target_velocity, accel*delta)
 	
+	_try_to_step_up_small_ledges()
+	
 	move_and_slide()
 	
 func _on_aim_angle_changed(euler_change_degs: Vector2) -> void:
 	self.rotate_y(deg_to_rad(euler_change_degs.x))
 
 
-func _on_stair_trigger_body_entered(body: PhysicsBody3D):
-	if dont_stair_trigger.overlaps_body(body):
+func _try_to_step_up_small_ledges():
+	if !is_on_floor():
 		return
 	stair_cast.force_shapecast_update()
-	var start_position := position
-	var distance := 0.0
-	while stair_cast.is_colliding():
-		position = position + Vector3.UP*0.01
-		stair_cast.force_shapecast_update()
-		distance += 0.01
-	position = start_position
-	move_and_collide(Vector3.UP*distance)
+	for col_index in stair_cast.get_collision_count():
+		var body: PhysicsBody3D = stair_cast.get_collider(col_index)
+		if dont_stair_trigger.overlaps_body(body):
+			continue
+			
+		var normal: Vector3 = stair_cast.get_collision_normal(col_index)
+		var velocity_ignore_height := velocity * Vector3(1,0,1)
+		var dot := velocity_ignore_height.dot(normal)
+		
+		if dot >= 0:
+			continue
+		
+		var distance := 0.0
+		while stair_cast.is_colliding():
+			var collision := move_and_collide(Vector3.UP*0.01)
+			if collision:
+				move_and_collide(Vector3.DOWN*distance)
+				break
+			stair_cast.force_shapecast_update()
+			distance += 0.01			
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cwd5k456stmes"]
+[gd_scene load_steps=13 format=3 uid="uid://cwd5k456stmes"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_ej5hw"]
 [ext_resource type="Script" path="res://Components/Player/InputController.gd" id="1_kfjew"]
@@ -13,12 +13,8 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tkwc4"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_hs72e"]
-height = 0.363992
-radius = 0.55973
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_axf5u"]
-radius = 0.632492
+[sub_resource type="BoxShape3D" id="BoxShape3D_c6hf7"]
+size = Vector3(1.57355, 1.74121, 1.76978)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1mchn"]
 size = Vector3(1.2, 0.5, 1.2)
@@ -77,25 +73,14 @@ script = ExtResource("8_n3b7k")
 [node name="AtomicState2" type="Node" parent="StateChart/ParallelState/CompoundState2"]
 script = ExtResource("8_n3b7k")
 
-[node name="StairTrigger" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.291027, 0)
-collision_layer = 0
-collision_mask = 2
-input_ray_pickable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StairTrigger"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.05533, 0)
-shape = SubResource("CylinderShape3D_hs72e")
-
 [node name="DontStairTrigger" type="Area3D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 2
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DontStairTrigger"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.422624, 0)
-shape = SubResource("CylinderShape3D_axf5u")
+transform = Transform3D(1.00352, 0, 0, 0, 1.00352, 0, 0, 0, 1.00352, -0.0162006, 0.422624, 0.000122502)
+shape = SubResource("BoxShape3D_c6hf7")
 
 [node name="StairCast" type="ShapeCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.703696, 0)
@@ -109,4 +94,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.594662, 0)
 [connection signal="aim_angle_changed" from="InputController" to="PlayerBus" method="_on_aim_angle_changed"]
 [connection signal="aim_angle_changed" from="PlayerBus" to="." method="_on_aim_angle_changed"]
 [connection signal="aim_angle_changed" from="PlayerBus" to="CameraController" method="_on_aim_angle_changed"]
-[connection signal="body_entered" from="StairTrigger" to="." method="_on_stair_trigger_body_entered"]
