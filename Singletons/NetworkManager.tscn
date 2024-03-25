@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4wo1560v2uqm"]
+
+[ext_resource type="Script" path="res://Singletons/NetworkManager.gd" id="1_l61io"]
+
+[node name="NetworkManager" type="Node"]
+script = ExtResource("1_l61io")

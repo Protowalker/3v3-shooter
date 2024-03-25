@@ -1,8 +1,8 @@
 extends CharacterBody3D
+class_name Player
 
 
 @export var bus: PlayerBus
-@onready var stair_trigger: Area3D = $StairTrigger
 @onready var stair_cast: ShapeCast3D = $StairCast
 @onready var dont_stair_trigger: Area3D = $DontStairTrigger
 const SPEED := 5.0
@@ -13,18 +13,18 @@ const JUMP_VELOCITY := 4.5
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-
 func _physics_process(delta):
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
 	# Handle jump.
-	if bus.input.jump().just and is_on_floor():
+	if bus.input.jump.just and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
-	var input_dir := bus.input.move()
+	var input_dir := bus.input.input_direction
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	var target_velocity := Vector3.ZERO
 	target_velocity.y = velocity.y
@@ -43,8 +43,8 @@ func _physics_process(delta):
 	
 	move_and_slide()
 	
-func _on_aim_angle_changed(euler_change_degs: Vector2) -> void:
-	self.rotate_y(deg_to_rad(euler_change_degs.x))
+func set_yaw(yaw: float) -> void:
+	self.rotation.y = deg_to_rad(yaw)
 
 
 func _try_to_step_up_small_ledges():
@@ -64,11 +64,14 @@ func _try_to_step_up_small_ledges():
 			continue
 		
 		var distance := 0.0
+		var failure := false 
 		while stair_cast.is_colliding():
 			var collision := move_and_collide(Vector3.UP*0.01)
 			if collision:
 				move_and_collide(Vector3.DOWN*distance)
+				failure = true
 				break
 			stair_cast.force_shapecast_update()
-			distance += 0.01			
-
+			distance += 0.01
+		if !failure:
+			move_and_collide(velocity_ignore_height.normalized()*0.02)

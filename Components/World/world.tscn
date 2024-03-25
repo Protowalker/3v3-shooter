@@ -1,13 +1,22 @@
 [gd_scene load_steps=3 format=3 uid="uid://by8pexpvb70gh"]
 
-[ext_resource type="PackedScene" uid="uid://cwd5k456stmes" path="res://Components/Player/player.tscn" id="1_vmy0p"]
+[ext_resource type="Script" path="res://Components/World/world.gd" id="1_xiry1"]
 [ext_resource type="PackedScene" uid="uid://b8h64m66ie4rb" path="res://Environments/TestEnvironment.tscn" id="2_v7tle"]
 
 [node name="World" type="Node3D"]
+script = ExtResource("1_xiry1")
 
-[node name="Player" parent="." instance=ExtResource("1_vmy0p")]
-transform = Transform3D(0.995694, 0, -0.0927006, 0, 1, 0, 0.0927006, 0, 0.995694, 6.47719, 1.03592, 20.8464)
+[node name="EnvironmentSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Environments/TestEnvironment.tscn")
+spawn_path = NodePath("../Environment")
+spawn_limit = 1
 
-[node name="Environment" parent="." instance=ExtResource("2_v7tle")]
+[node name="Players" type="Node3D" parent="."]
 
-[node name="NetworkManager" type="Node" parent="."]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Components/Player/player.tscn")
+spawn_path = NodePath("../Players")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Environment" parent="Environment" instance=ExtResource("2_v7tle")]

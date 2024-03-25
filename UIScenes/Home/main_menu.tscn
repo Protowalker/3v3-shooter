@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3 uid="uid://c88bmc3qey6ak"]
+
+[ext_resource type="Script" path="res://UIScenes/Home/main_menu.gd" id="1_ju4qv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5b00e"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_383f7"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_ju4qv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_5b00e")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Title"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 150
+text = "Not Overwatch"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Host Game" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host Game"
+
+[node name="Join Game" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join Game
+"
+
+[node name="Quit to Desktop" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit To Desktop"
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_383f7")
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBoxContainer/Host Game" to="." method="_on_host_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBoxContainer/Join Game" to="." method="_on_join_game_pressed"]

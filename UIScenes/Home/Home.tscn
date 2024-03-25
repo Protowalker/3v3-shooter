@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://qgyvf7nmw7fi"]
+
+[ext_resource type="Script" path="res://UIScenes/Home/Home.gd" id="1_7ypod"]
+[ext_resource type="PackedScene" uid="uid://c88bmc3qey6ak" path="res://UIScenes/Home/main_menu.tscn" id="1_u8ott"]
+[ext_resource type="PackedScene" uid="uid://b8h64m66ie4rb" path="res://Environments/TestEnvironment.tscn" id="2_li4lk"]
+[ext_resource type="PackedScene" uid="uid://0rs2fme1ve5y" path="res://UIScenes/Home/host_game.tscn" id="2_n28cc"]
+[ext_resource type="PackedScene" uid="uid://3iqi320nlka5" path="res://UIScenes/Home/join_game.tscn" id="4_hu857"]
+
+[node name="Home" type="Node3D" node_paths=PackedStringArray("main_menu", "host_game", "join_game")]
+script = ExtResource("1_7ypod")
+starting_screen = 1
+main_menu = NodePath("CanvasLayer/Main Menu")
+host_game = NodePath("CanvasLayer/Host Game")
+join_game = NodePath("CanvasLayer/Join Game")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Main Menu" parent="CanvasLayer" instance=ExtResource("1_u8ott")]
+visible = false
+
+[node name="Host Game" parent="CanvasLayer" instance=ExtResource("2_n28cc")]
+visible = false
+
+[node name="Join Game" parent="CanvasLayer" instance=ExtResource("4_hu857")]
+
+[node name="Environment" parent="." instance=ExtResource("2_li4lk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -2.549, -31.077)
+
+[connection signal="go_to_screen" from="CanvasLayer/Main Menu" to="." method="_on_go_to_screen"]
+[connection signal="go_to_screen" from="CanvasLayer/Host Game" to="." method="_on_go_to_screen"]
+[connection signal="go_to_screen" from="CanvasLayer/Join Game" to="." method="_on_go_to_screen"]

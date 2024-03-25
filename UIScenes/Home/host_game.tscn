@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=3 uid="uid://0rs2fme1ve5y"]
+
+[ext_resource type="Script" path="res://UIScenes/Home/host_game.gd" id="1_5v8yq"]
+
+[node name="Host Game" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_5v8yq")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -178.0
+offset_top = -144.0
+offset_right = 178.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBox"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HBox/VBoxContainer"]
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/normal_font_size = 50
+text = "Host Game"
+fit_content = true
+autowrap_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBox/VBoxContainer"]
+layout_mode = 2
+
+[node name="ServerName" type="TextEdit" parent="HBox/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+placeholder_text = "Name"
+scroll_fit_content_height = true
+
+[node name="ServerPort" type="TextEdit" parent="HBox/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Port
+"
+scroll_fit_content_height = true
+
+[node name="StartButton" type="Button" parent="HBox/VBoxContainer"]
+layout_mode = 2
+text = "Start"
+
+[connection signal="pressed" from="HBox/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]

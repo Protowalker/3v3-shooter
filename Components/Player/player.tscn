@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cwd5k456stmes"]
+[gd_scene load_steps=15 format=3 uid="uid://cwd5k456stmes"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_ej5hw"]
 [ext_resource type="Script" path="res://Components/Player/InputController.gd" id="1_kfjew"]
@@ -13,11 +13,33 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tkwc4"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cdpnj"]
+properties/0/path = NodePath(".:jump")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:input_direction")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:cam_rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_c6hf7"]
 size = Vector3(1.57355, 1.74121, 1.76978)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1mchn"]
-size = Vector3(1.2, 0.5, 1.2)
+size = Vector3(1.01, 0.25, 1.01)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qe1dx"]
+properties/0/path = NodePath(".:velocity")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("PlayerBus:multiplayer_id")
+properties/2/spawn = true
+properties/2/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("bus")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03592, 0)
@@ -31,21 +53,28 @@ shape = SubResource("CapsuleShape3D_dn2mj")
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
 mesh = SubResource("CapsuleMesh_tkwc4")
 
-[node name="InputController" type="Node" parent="."]
+[node name="InputController" type="MultiplayerSynchronizer" parent="." node_paths=PackedStringArray("bus")]
+root_path = NodePath(".")
+replication_config = SubResource("SceneReplicationConfig_cdpnj")
 script = ExtResource("1_kfjew")
 mouse_sensitivity = 30
+bus = NodePath("../PlayerBus")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.481128, 0)
 
-[node name="CameraController" type="Node" parent="." node_paths=PackedStringArray("camera", "head")]
+[node name="CameraController" type="Node" parent="." node_paths=PackedStringArray("camera", "head", "bus")]
 script = ExtResource("2_7sfno")
-camera = NodePath("../Camera3D")
+camera = NodePath("../Camera")
 head = NodePath("../Head")
+bus = NodePath("../PlayerBus")
 
-[node name="PlayerBus" type="Node" parent="." node_paths=PackedStringArray("input")]
+[node name="PlayerBus" type="Node" parent="." node_paths=PackedStringArray("input", "head", "camera_controller", "player")]
 script = ExtResource("4_foldq")
 input = NodePath("../InputController")
+head = NodePath("../Head")
+camera_controller = NodePath("../CameraController")
+player = NodePath("..")
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("5_7vhg6")
@@ -74,6 +103,7 @@ script = ExtResource("8_n3b7k")
 script = ExtResource("8_n3b7k")
 
 [node name="DontStairTrigger" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.246126, 0)
 collision_layer = 0
 collision_mask = 2
 input_ray_pickable = false
@@ -83,7 +113,7 @@ transform = Transform3D(1.00352, 0, 0, 0, 1.00352, 0, 0, 0, 1.00352, -0.0162006,
 shape = SubResource("BoxShape3D_c6hf7")
 
 [node name="StairCast" type="ShapeCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.703696, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.828823, 0)
 shape = SubResource("BoxShape3D_1mchn")
 target_position = Vector3(0, 0, 0)
 collision_mask = 2
@@ -91,6 +121,10 @@ collision_mask = 2
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.594662, 0)
 
+[node name="PlayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qe1dx")
+
 [connection signal="aim_angle_changed" from="InputController" to="PlayerBus" method="_on_aim_angle_changed"]
+[connection signal="aim_angle_set" from="InputController" to="PlayerBus" method="_on_aim_angle_set"]
 [connection signal="aim_angle_changed" from="PlayerBus" to="." method="_on_aim_angle_changed"]
 [connection signal="aim_angle_changed" from="PlayerBus" to="CameraController" method="_on_aim_angle_changed"]
