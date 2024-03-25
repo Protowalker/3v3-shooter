@@ -6,6 +6,7 @@
 [node name="World" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_vmy0p")]
+transform = Transform3D(0.995694, 0, -0.0927006, 0, 1, 0, 0.0927006, 0, 0.995694, 6.47719, 1.03592, 20.8464)
 
 [node name="Environment" parent="." instance=ExtResource("2_v7tle")]
 

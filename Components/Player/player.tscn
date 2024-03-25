@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cwd5k456stmes"]
+[gd_scene load_steps=14 format=3 uid="uid://cwd5k456stmes"]
 
 [ext_resource type="Script" path="res://Components/Player/player.gd" id="1_ej5hw"]
 [ext_resource type="Script" path="res://Components/Player/InputController.gd" id="1_kfjew"]
@@ -9,17 +9,28 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_36y70"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_n3b7k"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ms13j"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dn2mj"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tkwc4"]
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hs72e"]
+height = 0.363992
+radius = 0.55973
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_axf5u"]
+radius = 0.632492
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1mchn"]
+size = Vector3(1.2, 0.5, 1.2)
+
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("bus")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03592, 0)
+floor_constant_speed = true
 script = ExtResource("1_ej5hw")
 bus = NodePath("PlayerBus")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_ms13j")
+shape = SubResource("CapsuleShape3D_dn2mj")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
 mesh = SubResource("CapsuleMesh_tkwc4")
@@ -31,9 +42,10 @@ mouse_sensitivity = 30
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.481128, 0)
 
-[node name="CameraController" type="Node" parent="." node_paths=PackedStringArray("camera")]
+[node name="CameraController" type="Node" parent="." node_paths=PackedStringArray("camera", "head")]
 script = ExtResource("2_7sfno")
 camera = NodePath("../Camera3D")
+head = NodePath("../Head")
 
 [node name="PlayerBus" type="Node" parent="." node_paths=PackedStringArray("input")]
 script = ExtResource("4_foldq")
@@ -65,6 +77,36 @@ script = ExtResource("8_n3b7k")
 [node name="AtomicState2" type="Node" parent="StateChart/ParallelState/CompoundState2"]
 script = ExtResource("8_n3b7k")
 
+[node name="StairTrigger" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.291027, 0)
+collision_layer = 0
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StairTrigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.05533, 0)
+shape = SubResource("CylinderShape3D_hs72e")
+
+[node name="DontStairTrigger" type="Area3D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 2
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DontStairTrigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.422624, 0)
+shape = SubResource("CylinderShape3D_axf5u")
+
+[node name="StairCast" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.703696, 0)
+shape = SubResource("BoxShape3D_1mchn")
+target_position = Vector3(0, 0, 0)
+collision_mask = 2
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.594662, 0)
+
 [connection signal="aim_angle_changed" from="InputController" to="PlayerBus" method="_on_aim_angle_changed"]
 [connection signal="aim_angle_changed" from="PlayerBus" to="." method="_on_aim_angle_changed"]
 [connection signal="aim_angle_changed" from="PlayerBus" to="CameraController" method="_on_aim_angle_changed"]
+[connection signal="body_entered" from="StairTrigger" to="." method="_on_stair_trigger_body_entered"]

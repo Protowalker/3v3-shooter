@@ -11,7 +11,6 @@ func _ready():
 	get_last_exclusive_window().focus_entered.connect(_on_focus_entered)
 
 func _on_focus_entered():
-	print("test")
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _input(event: InputEvent):
