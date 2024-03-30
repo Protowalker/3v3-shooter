@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://b5q7bk3gl6mmg"]
+
+[ext_resource type="Script" path="res://Projectiles/Boomerang/boomerang.gd" id="1_a1br3"]
+[ext_resource type="Script" path="res://addons/netfox/tick-interpolator.gd" id="3_sccda"]
+[ext_resource type="Script" path="res://addons/netfox/state-synchronizer.gd" id="4_b1682"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_o6e5t"]
+properties/0/path = NodePath(".:owning_player_id")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rahe1"]
+size = Vector3(1, 0.158203, 1)
+
+[node name="Boomerang" type="Node3D"]
+script = ExtResource("1_a1br3")
+
+[node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("3_sccda")
+root = NodePath("..")
+properties = Array[String]([":global_position"])
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_o6e5t")
+
+[node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("4_b1682")
+root = NodePath("..")
+properties = Array[String]([":transform"])
+
+[node name="local" type="Node3D" parent="."]
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="local"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.357333, -0.111373, 0.011814)
+size = Vector3(0.276367, 0.154297, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="local"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0093216, -0.111434, 0.368077)
+size = Vector3(0.276367, 0.154175, 1)
+
+[node name="Area3D" type="Area3D" parent="local"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.354161, 0, 0.367237)
+
+[node name="CollisionPolygon3D" type="CollisionShape3D" parent="local/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.109375, 0)
+shape = SubResource("BoxShape3D_rahe1")
+
+[connection signal="body_entered" from="local/Area3D" to="." method="_on_area_3d_body_entered"]

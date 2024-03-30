@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbk1kw8oowije"]
+
+[ext_resource type="Script" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="1_3xcui"]
+[ext_resource type="Script" path="res://addons/netfox/tick-interpolator.gd" id="2_yuo5k"]
+
+[node name="Projectile" type="Node3D"]
+
+[node name="RollbackSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("1_3xcui")
+root = NodePath("..")
+state_properties = Array[String]([":global_transform", ":global_rotation"])
+
+[node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("2_yuo5k")
+root = NodePath("..")
+properties = Array[String]([":global_transform"])

@@ -3,12 +3,76 @@ class_name Player
 
 
 @export var bus: PlayerBus
+var character: Character:
+	set(new_character):
+		character = new_character
+		_load_character()
 @onready var stair_cast: ShapeCast3D = $StairCast
 @onready var dont_stair_trigger: Area3D = $DontStairTrigger
+
+@export var outer_view: Node3D
+@export var rendering: Node3D
+@export var head: Node3D
+
+var collision_shape_name := "CollisionShape"
+
+
 const SPEED := 5.0
 const ACCEL := 25.0
 const AIR_ACCEL := 5.0
 const JUMP_VELOCITY := 4.5
+
+func _load_character() -> void:
+	character.player = self
+	# Collision Shape
+	var old_collision_shape := get_node(collision_shape_name)
+	old_collision_shape.queue_free()
+	remove_child(old_collision_shape)
+	
+	var new_collision_shape := character.collision_shape
+	new_collision_shape.name = collision_shape_name
+
+	new_collision_shape.get_parent().remove_child(new_collision_shape)
+	add_child(new_collision_shape, true)
+	
+	# Outer View
+	var old_outer := outer_view.get_node("_outer")
+	old_outer.queue_free()
+	outer_view.remove_child(old_outer)
+	
+	var new_outer := character.outer_view
+	new_outer.name = "_outer"
+	
+	new_outer.get_parent().remove_child(new_outer)
+	outer_view.add_child(new_outer, true)
+	
+	# Head
+	var new_head := character.head
+	head.position = new_head.position
+
+	#Inner View
+	var old_inner := head.get_node("_inner")
+	old_inner.queue_free()
+	head.remove_child(old_inner)
+	
+	var new_inner := character.inner_view
+	new_inner.name = "_inner"
+	
+	new_inner.get_parent().remove_child(new_inner)
+	head.add_child(new_inner, true)
+	
+	
+
+var _soldier6 := preload("res://Components/Player/Characters/Soldier 6/Soldier6.tscn")
+
+func _ready() -> void:
+	character = _soldier6.instantiate()
+	if bus.multiplayer_id == multiplayer.get_unique_id():
+		outer_view.visible = false
+		head.visible = true
+	else:
+		outer_view.visible = true
+		head.visible = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -44,6 +108,7 @@ func _rollback_tick(delta: float, _tick: int, _is_fresh: bool) -> void:
 	move_and_slide()
 	velocity /= NetworkTime.physics_factor
 	
+	character.tick(delta)
 	
 func set_yaw(yaw: float) -> void:
 	self.rotation.y = deg_to_rad(yaw)
@@ -76,3 +141,6 @@ func _try_to_step_up_small_ledges() -> void:
 			distance += 0.01
 		if !failure:
 			move_and_collide(velocity_ignore_height.normalized()*0.02)
+
+func character_projectile_destroyed(projectile: Projectile) -> void:
+	character.projectile_destroyed(projectile)

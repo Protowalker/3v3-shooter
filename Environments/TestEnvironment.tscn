@@ -926,6 +926,7 @@ collision_layer = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -5)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_pcpsw")
+collision_layer = 3
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_af0ik")
@@ -1032,68 +1033,82 @@ collision_layer = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_sndpd")
+collision_layer = 3
 
 [node name="Block_2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.5, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_usbip")
+collision_layer = 3
 
 [node name="Block_3" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_4ys4t")
+collision_layer = 3
 
 [node name="Block_4" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_a20f3")
+collision_layer = 3
 
 [node name="Block_5" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_3jqon")
+collision_layer = 3
 
 [node name="Block_6" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_wbkss")
+collision_layer = 3
 
 [node name="Block_7" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_okeqg")
+collision_layer = 3
 
 [node name="Block_8" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_woocj")
+collision_layer = 3
 
 [node name="Block_9" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_jp53v")
+collision_layer = 3
 
 [node name="Block_10" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_r03ug")
+collision_layer = 3
 
 [node name="Block_11" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_thsa2")
+collision_layer = 3
 
 [node name="Block_12" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_4kv0w")
+collision_layer = 3
 
 [node name="Block_13" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_t10pu")
+collision_layer = 3
 
 [node name="Block_14" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0, 23)
 script = ExtResource("1_ro6vc")
 block_data = SubResource("Resource_ne5p1")
+collision_layer = 3

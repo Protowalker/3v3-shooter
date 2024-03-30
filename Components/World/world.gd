@@ -1,12 +1,14 @@
 extends Node3D
-
+class_name World
 
 @onready var players: Node3D = $Players
+@onready var projectiles: Node3D = $Projectiles
 
 signal player_joined(id: int, player: Player)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	WorldManager.world = self
 	# We only need to spawn players on the server.
 	if not multiplayer.is_server():
 		return
@@ -44,3 +46,7 @@ func del_player(id: int) -> void:
 func _emit_player_joined(id: int) -> void:
 	var player := players.get_node(str(id))
 	player_joined.emit(id, player)
+	
+	
+func add_projectile(projectile: Projectile) -> void:
+	projectiles.add_child(projectile)

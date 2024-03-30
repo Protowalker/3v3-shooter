@@ -31,14 +31,12 @@ size = Vector2(6, 20)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tkwc4"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("bus", "outer_view", "rendering", "head")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("bus", "outer_view")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03592, 0)
 floor_constant_speed = true
 script = ExtResource("1_ej5hw")
 bus = NodePath("Controllers/PlayerBus")
 outer_view = NodePath("Rendering/OuterView")
-rendering = NodePath("Rendering")
-head = NodePath("Rendering/Head")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_dn2mj")

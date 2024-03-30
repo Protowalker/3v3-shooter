@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://booj3nvof2quh"]
+
+[ext_resource type="Shader" path="res://Projectiles/DeployableShield/deployable_shield.gdshader" id="1_fkvks"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cmwv6"]
+render_priority = 0
+shader = ExtResource("1_fkvks")
+
+[sub_resource type="QuadMesh" id="QuadMesh_iwvws"]
+lightmap_size_hint = Vector2i(9, 7)
+material = SubResource("ShaderMaterial_cmwv6")
+size = Vector2(1.5, 1)
+
+[node name="DeployableShield" type="Node3D"]
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(1.00615, 0, 0, 0, 1.00615, 0, 0, 0, 1.00615, 0.00344276, 0.505763, 0)
+use_collision = true
+collision_layer = 8
+collision_mask = 0
+mesh = SubResource("QuadMesh_iwvws")

@@ -6,6 +6,7 @@ class_name InputController
 @export var mouse_sensitivity := 10
 
 var jump := ButtonState.get_empty()
+var primary := ButtonState.get_empty()
 
 var input_direction := Vector2()
 
@@ -28,6 +29,9 @@ func _ready() -> void:
 
 func _gather() -> void:
 	_update_move()
+	primary = ButtonState.get_value_for_input(InputActions.primary_attack)	
+	jump = ButtonState.get_value_for_input(InputActions.jump)	
+	
 
 
 func _on_focus_entered() -> void:
@@ -41,8 +45,6 @@ func _input(event: InputEvent) -> void:
 	if event.is_action(InputActions.pause):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		
-	if event.is_action(InputActions.jump):
-		jump = ButtonState.get_value_for_input(InputActions.jump)	
 		
 	if event is InputEventMouseMotion:
 		var change: Vector2 = -event.relative * mouse_sensitivity*get_process_delta_time()

@@ -3,6 +3,7 @@ class_name PlayerBus
 
 @export var input: InputController
 @export var head: Node3D
+
 @export var camera_controller: CameraController
 @export var player: Player
 @export var rb_sync: RollbackSynchronizer

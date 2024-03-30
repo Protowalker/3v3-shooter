@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://coc4gy7rjbv6m"]
+
+[ext_resource type="Script" path="res://Components/Player/Characters/Soldier 6/Soldier6.gd" id="1_70j4i"]
+[ext_resource type="PackedScene" uid="uid://b5q7bk3gl6mmg" path="res://Projectiles/Boomerang/boomerang.tscn" id="2_2svw0"]
+[ext_resource type="Resource" uid="uid://b80c1227sxxwq" path="res://Components/Player/Characters/Soldier 6/Moveset/moveset.tres" id="3_35jy2"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_ku6jj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_6jg0k"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ldl8d"]
+radius = 0.378497
+
+[sub_resource type="BoxMesh" id="BoxMesh_euk6j"]
+
+[node name="Soldier6" type="Node3D" node_paths=PackedStringArray("outer_view", "inner_view", "collision_shape", "head")]
+script = ExtResource("1_70j4i")
+Boomerang = ExtResource("2_2svw0")
+outer_view = NodePath("OuterViewBody/_outer")
+inner_view = NodePath("InnerViewBody/_inner")
+collision_shape = NodePath("OuterViewBody/Collision")
+head = NodePath("Head")
+moveset = ExtResource("3_35jy2")
+
+[node name="OuterViewBody" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3396, 0, 0)
+
+[node name="_outer" type="Node3D" parent="OuterViewBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02942, 0)
+
+[node name="Body" type="MeshInstance3D" parent="OuterViewBody/_outer"]
+transform = Transform3D(0.403822, 0, 0, 0, -4.38278e-08, -1.00266, 0, 1.00266, -4.38278e-08, 0, 0, 0)
+mesh = SubResource("TorusMesh_ku6jj")
+skeleton = NodePath("../../..")
+
+[node name="Gun" type="MeshInstance3D" parent="OuterViewBody/_outer"]
+transform = Transform3D(0.103072, 0, 0, 0, 0.0915644, 0, 0, 0, 0.716407, 0.709185, 0.00561404, -0.246513)
+mesh = SubResource("BoxMesh_6jg0k")
+skeleton = NodePath("../..")
+
+[node name="Collision" type="CollisionShape3D" parent="OuterViewBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02251, 0)
+shape = SubResource("CapsuleShape3D_ldl8d")
+
+[node name="InnerViewBody" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.27389, 0, 0)
+
+[node name="_inner" type="Node3D" parent="InnerViewBody"]
+
+[node name="Gun" type="MeshInstance3D" parent="InnerViewBody/_inner"]
+transform = Transform3D(0.143557, 0, 0.33254, 0, 0.157628, 0, -0.0506192, 0, 0.943089, 0.580575, -0.203891, -0.395339)
+mesh = SubResource("BoxMesh_euk6j")
+skeleton = NodePath("../..")
+
+[node name="Camera3D" type="Camera3D" parent="InnerViewBody"]
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5805, 0)
