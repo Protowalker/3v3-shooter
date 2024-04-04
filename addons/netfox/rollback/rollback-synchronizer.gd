@@ -141,6 +141,7 @@ func _process_tick(tick: int):
 			_freshness_store.notify_processed(node, tick)
 
 func _record_tick(tick: int):
+	
 	# Broadcast state we own
 	if not _auth_state_props.is_empty():
 		var broadcast = {}

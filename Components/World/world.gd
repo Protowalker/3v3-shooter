@@ -4,6 +4,8 @@ class_name World
 @onready var players: Node3D = $Players
 @onready var projectiles: Node3D = $Projectiles
 
+@onready var team_manager: TeamManager = $TeamManager
+
 signal player_joined(id: int, player: Player)
 
 # Called when the node enters the scene tree for the first time.
@@ -34,9 +36,14 @@ func add_player(id: int) -> void:
 	var character: Player = preload("res://Components/Player/player.tscn").instantiate()
 	character.bus.multiplayer_id = id
 	character.name = str(id)
+	
+	var team_to_join := team_manager.team_with_fewest_players()
+	team_to_join.add_player(id)
+	
 	players.add_child(character, true)
 	_emit_player_joined.rpc(id)
 	
+
 func del_player(id: int) -> void:
 	if not $Players.has_node(str(id)):
 		return
@@ -49,4 +56,4 @@ func _emit_player_joined(id: int) -> void:
 	
 	
 func add_projectile(projectile: Projectile) -> void:
-	projectiles.add_child(projectile)
+	projectiles.add_child(projectile, true)

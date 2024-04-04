@@ -1,21 +1,42 @@
-[gd_scene load_steps=4 format=3 uid="uid://booj3nvof2quh"]
+[gd_scene load_steps=7 format=3 uid="uid://booj3nvof2quh"]
 
-[ext_resource type="Shader" path="res://Projectiles/DeployableShield/deployable_shield.gdshader" id="1_fkvks"]
+[ext_resource type="Script" path="res://Projectiles/DeployableShield/deployable_shield.gd" id="1_rfj7h"]
+[ext_resource type="PackedScene" uid="uid://b6lnbfdv0885r" path="res://Projectiles/DeployableShield/mesh.glb" id="2_hjesc"]
+[ext_resource type="Script" path="res://addons/netfox/state-synchronizer.gd" id="4_4l0ph"]
+[ext_resource type="Script" path="res://addons/netfox/tick-interpolator.gd" id="4_82fb3"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cmwv6"]
-render_priority = 0
-shader = ExtResource("1_fkvks")
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hko6g"]
+properties/0/path = NodePath(".:owning_player_id")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
-[sub_resource type="QuadMesh" id="QuadMesh_iwvws"]
-lightmap_size_hint = Vector2i(9, 7)
-material = SubResource("ShaderMaterial_cmwv6")
-size = Vector2(1.5, 1)
+[sub_resource type="BoxShape3D" id="BoxShape3D_q361s"]
+size = Vector3(0.1, 1.62419, 0.1)
 
-[node name="DeployableShield" type="Node3D"]
+[node name="DeployableShield" type="Node3D" node_paths=PackedStringArray("base")]
+script = ExtResource("1_rfj7h")
+base = NodePath("Base")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
-transform = Transform3D(1.00615, 0, 0, 0, 1.00615, 0, 0, 0, 1.00615, 0.00344276, 0.505763, 0)
-use_collision = true
-collision_layer = 8
-collision_mask = 0
-mesh = SubResource("QuadMesh_iwvws")
+[node name="Mesh" parent="." instance=ExtResource("2_hjesc")]
+
+[node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("4_4l0ph")
+root = NodePath("..")
+properties = Array[String]([":global_transform"])
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hko6g")
+
+[node name="Base" type="CharacterBody3D" parent="."]
+process_mode = 4
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875327, 0)
+shape = SubResource("BoxShape3D_q361s")
+
+[node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("4_82fb3")
+root = NodePath("..")
+properties = Array[String]([":global_transform"])

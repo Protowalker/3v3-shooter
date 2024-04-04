@@ -28,7 +28,7 @@ func _ready():
 	NetworkTime.after_tick.connect(_after_tick)
 
 func _after_tick(_dt, tick):
-	if is_multiplayer_authority():
+	if is_inside_tree() and is_multiplayer_authority():
 		# Submit snapshot
 		var state = PropertySnapshot.extract(_props)
 		rpc("_submit_state", state, tick)

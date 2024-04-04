@@ -69,4 +69,5 @@ static var move_right:StringName = &"move_right"
 static var jump:StringName = &"jump"
 static var pause:StringName = &"pause"
 static var primary_attack:StringName = &"primary_attack"
+static var secondary_attack:StringName = &"secondary_attack"
 

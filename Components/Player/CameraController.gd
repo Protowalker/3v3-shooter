@@ -23,7 +23,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	var interpolation_fraction: float = clamp(Engine.get_physics_interpolation_fraction(), 0, 1)
+	#var interpolation_fraction: float = clamp(Engine.get_physics/_interpolation_fraction(), 0, 1)
 	#camera.global_transform = camera_gt_previous.interpolate_with(camera_gt_current, interpolation_fraction)
 	#camera.global_rotation = head.global_rotation
 	camera.global_transform = head.global_transform

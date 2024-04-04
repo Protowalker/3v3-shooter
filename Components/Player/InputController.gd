@@ -5,8 +5,9 @@ class_name InputController
 
 @export var mouse_sensitivity := 10
 
-var jump := ButtonState.get_empty()
-var primary := ButtonState.get_empty()
+var jump := ButtonState.new(InputActions.jump)
+var primary := ButtonState.new(InputActions.primary_attack)
+var secondary := ButtonState.new(InputActions.secondary_attack)
 
 var input_direction := Vector2()
 
@@ -26,12 +27,20 @@ func _ready() -> void:
 		return
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	get_last_exclusive_window().focus_entered.connect(_on_focus_entered)
+	NetworkTime.after_tick_loop.connect(_after_tick)
 
 func _gather() -> void:
 	_update_move()
-	primary = ButtonState.get_value_for_input(InputActions.primary_attack)	
-	jump = ButtonState.get_value_for_input(InputActions.jump)	
-	
+	jump.update()
+	primary.update()
+	secondary.update()
+
+func _after_tick() -> void:
+	if !is_multiplayer_authority():
+		return
+	jump.reset()
+	primary.reset()
+	secondary.reset()
 
 
 func _on_focus_entered() -> void:
@@ -47,10 +56,13 @@ func _input(event: InputEvent) -> void:
 		
 		
 	if event is InputEventMouseMotion:
-		var change: Vector2 = -event.relative * mouse_sensitivity*get_process_delta_time()
+		var mouse_event: InputEventMouseMotion = event
+		var change: Vector2 = -mouse_event.relative * mouse_sensitivity*get_process_delta_time()
 		cam_rotation = Vector2(rad_to_deg(bus.head.rotation.x) + change.y, rad_to_deg(bus.player.rotation.y) + change.x)
-		
-		
+	
+	jump.input(event)
+	primary.input(event)
+	secondary.input(event)
 
 func _update_move() -> void:
 	input_direction = Input.get_vector(InputActions.move_left, 

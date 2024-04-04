@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://damsl11vjp8if"]
+
+[ext_resource type="Shader" path="res://Projectiles/DeployableShield/deployable_shield.gdshader" id="1_7e6td"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_7e6td")

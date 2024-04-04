@@ -10,8 +10,8 @@ var player: Player
 
 @export var moveset: Moveset
 
-func tick(delta: float) -> void:
+func tick(_delta: float) -> void:
 	pass
 
-func projectile_destroyed(projectile: Projectile) -> void:
+func projectile_destroyed(_projectile: Projectile) -> void:
 	pass
