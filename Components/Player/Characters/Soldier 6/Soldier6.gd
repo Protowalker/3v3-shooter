@@ -8,13 +8,10 @@ enum BoomerangAttackStates {
 var boomerang_state := BoomerangAttackStates.Held
 
 @export var BoomerangScene: PackedScene
-
-var shield_count := 0
-var max_shield_count := 3
-
-var shields: Array[DeployableShield] = []
-
 @export var ShieldScene: PackedScene
+
+var max_shield_count := 3
+var shields: Array[DeployableShield] = []
 
 signal shield_released()
 
@@ -22,6 +19,7 @@ signal shield_released()
 func tick(delta: float) -> void:
 	_tick_boomerang(delta)
 	_tick_shield(delta)
+	moveset._tick(delta)
 	
 func _tick_boomerang(delta: float) -> void:
 	match boomerang_state:
@@ -31,8 +29,9 @@ func _tick_boomerang(delta: float) -> void:
 			_boomerang_out(delta)
 	
 func _boomerang_held(_delta: float) -> void:
-	if player.bus.input.primary.just:
+	if player.bus.input.primary.just and moveset.primary_attack.can_be_used():
 		boomerang_state = BoomerangAttackStates.Out
+		moveset.primary_attack.use()
 		_create_boomerang()
 		
 func _boomerang_out(_delta: float) -> void:
@@ -46,7 +45,8 @@ func _create_boomerang() -> void:
 	WorldManager.add_projectile_to_world(boomerang)
 
 func _tick_shield(_delta: float) -> void:
-	if player.bus.input.secondary.just and shield_count < max_shield_count:
+	if player.bus.input.secondary.just and moveset.secondary_attack.can_be_used():
+		moveset.secondary_attack.use()
 		_create_shield()
 		
 	if player.bus.input.secondary.just_released:
@@ -55,10 +55,16 @@ func _tick_shield(_delta: float) -> void:
 func _create_shield() -> void:
 	if !player.multiplayer.is_server():
 		return
+		
+	if len(shields) >= max_shield_count:
+		var old_shield: DeployableShield = shields.pop_front()
+		old_shield.queue_free()
+		
 	var shield: DeployableShield = ShieldScene.instantiate()
 	shield.owning_player_id = player.bus.multiplayer_id
 	shield_released.connect(shield.on_let_go)
 	WorldManager.add_projectile_to_world(shield)
+	shields.push_back(shield)
 
 func projectile_destroyed(projectile: Projectile) -> void:
 	if projectile is Boomerang:

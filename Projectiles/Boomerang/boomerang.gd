@@ -19,6 +19,7 @@ enum TravelState {
 var current_travel_state := TravelState.Casting
 
 @export var area: Area3D
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
 	owning_player = WorldManager.get_player_by_id(owning_player_id)
@@ -28,6 +29,7 @@ func _ready() -> void:
 	rotation = starting_basis.get_euler()
 	
 	NetworkTime.on_tick.connect(_network_tick)
+	anim_player.play(&"spin")
 	
 
 func _network_tick(delta: float, _tick: int) -> void:

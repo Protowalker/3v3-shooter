@@ -33,6 +33,8 @@ var health := 200.0:
 signal damaged(amount: float, perpetrator: Player)
 signal health_changed(new_health: float, max_health: float)
 
+signal character_changed(new_character: Character)
+
 func _load_character() -> void:
 	character.player = self
 	# Collision Shape
@@ -72,6 +74,7 @@ func _load_character() -> void:
 	new_inner.get_parent().remove_child(new_inner)
 	head.add_child(new_inner, true)
 	
+	character_changed.emit(character)
 	
 
 var _soldier6 := preload("res://Components/Player/Characters/Soldier 6/Soldier6.tscn")

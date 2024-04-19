@@ -103,6 +103,7 @@ secondary_attack={
 
 3d_physics/layer_2="Environment"
 3d_physics/layer_4="Shields"
+3d_physics/layer_5="Areas of effect"
 
 [physics]
 

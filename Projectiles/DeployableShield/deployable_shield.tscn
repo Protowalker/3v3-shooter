@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://booj3nvof2quh"]
+[gd_scene load_steps=8 format=3 uid="uid://booj3nvof2quh"]
 
 [ext_resource type="Script" path="res://Projectiles/DeployableShield/deployable_shield.gd" id="1_rfj7h"]
 [ext_resource type="PackedScene" uid="uid://b6lnbfdv0885r" path="res://Projectiles/DeployableShield/mesh.glb" id="2_hjesc"]
 [ext_resource type="Script" path="res://addons/netfox/state-synchronizer.gd" id="4_4l0ph"]
 [ext_resource type="Script" path="res://addons/netfox/tick-interpolator.gd" id="4_82fb3"]
+[ext_resource type="Texture2D" uid="uid://bm4rhxbxcocy" path="res://icon.svg" id="5_inobb"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hko6g"]
 properties/0/path = NodePath(".:owning_player_id")
@@ -40,3 +41,13 @@ shape = SubResource("BoxShape3D_q361s")
 script = ExtResource("4_82fb3")
 root = NodePath("..")
 properties = Array[String]([":global_transform"])
+
+[node name="Decal" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00668335, 0.842834, 1.5)
+layers = 4
+size = Vector3(4.11078, 3.68567, 3)
+texture_albedo = ExtResource("5_inobb")
+cull_mask = 1047554
+metadata/_edit_lock_ = true
+
+[editable path="Mesh"]

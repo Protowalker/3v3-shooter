@@ -1,12 +1,10 @@
 [gd_resource type="Resource" script_class="Moveset" load_steps=4 format=3 uid="uid://b80c1227sxxwq"]
 
-[ext_resource type="Script" path="res://Components/Player/Characters/moveset.gd" id="1_cvmly"]
-[ext_resource type="Resource" uid="uid://bh5e52mebyltc" path="res://Components/Player/Characters/Soldier 6/Moveset/primary.tres" id="1_uxtgj"]
-[ext_resource type="Resource" uid="uid://drnabl43loac2" path="res://Components/Player/Characters/Soldier 6/Moveset/special.tres" id="3_bekc6"]
+[ext_resource type="Resource" uid="uid://bh5e52mebyltc" path="res://Components/Player/Characters/Soldier 6/Moveset/boomerang.tres" id="1_oclrl"]
+[ext_resource type="Script" path="res://Components/Player/Characters/Abilities/moveset.gd" id="2_3te86"]
+[ext_resource type="Resource" uid="uid://drnabl43loac2" path="res://Components/Player/Characters/Soldier 6/Moveset/shield.tres" id="3_mhfnp"]
 
 [resource]
-script = ExtResource("1_cvmly")
-primary_attack = ExtResource("1_uxtgj")
-utility_attack = ExtResource("1_uxtgj")
-special_attack = ExtResource("3_bekc6")
-ultimate_attack = ExtResource("1_uxtgj")
+script = ExtResource("2_3te86")
+primary_attack = ExtResource("1_oclrl")
+secondary_attack = ExtResource("3_mhfnp")

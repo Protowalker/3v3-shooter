@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://jirl6wtgcg6j"]
+
+[ext_resource type="Script" path="res://UIScenes/HUD/ability.gd" id="1_cuxgm"]
+[ext_resource type="Texture2D" uid="uid://bm4rhxbxcocy" path="res://icon.svg" id="1_p8lug"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b5bre"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dem6l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pmert"]
+bg_color = Color(0, 0, 0, 0.239216)
+
+[node name="Ability" type="VBoxContainer"]
+offset_right = 50.0
+offset_bottom = 50.0
+script = ExtResource("1_cuxgm")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_p8lug")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="Cooldown" type="PanelContainer" parent="PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_b5bre")
+
+[node name="ProgressBar" type="ProgressBar" parent="PanelContainer/Cooldown"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_dem6l")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pmert")
+value = 50.0
+fill_mode = 3
+show_percentage = false
+
+[node name="Label" type="Label" parent="PanelContainer/Cooldown"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.815673, 0.979466, 1, 1)
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true

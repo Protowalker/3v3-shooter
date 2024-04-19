@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b5q7bk3gl6mmg"]
+[gd_scene load_steps=10 format=3 uid="uid://b5q7bk3gl6mmg"]
 
 [ext_resource type="Script" path="res://Projectiles/Boomerang/boomerang.gd" id="1_a1br3"]
 [ext_resource type="Script" path="res://addons/netfox/tick-interpolator.gd" id="3_hydvi"]
@@ -16,6 +16,23 @@ points = PackedVector3Array(0.635903, 0.2663, -4.3205, 2.23032, 0.799582, -3.908
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nyh0k"]
 points = PackedVector3Array(-0.222345, 0.900821, 2.22203, 2.24789, 0.913671, 4.88058, 2.2527, 0.352736, 4.88746, 1.31657, 0.399862, 0.116972, -0.495994, 0.224353, 0.468369, 1.02401, 1.043, 0.116972, 0.900794, 0.307526, 4.92984, 1.31657, 1.043, 5.38048, -0.4376, 1.043, 0.116972, 1.14109, 0.224353, 0.116972, 1.75291, 0.260383, 5.26289, 2.14932, 0.959267, 3.73195, 0.254627, 0.418526, 3.72431, 2.01847, 1.043, 5.38048, 2.21879, 0.304489, 4.07106, 0.632361, 0.954668, 4.46854, 1.31657, 0.867488, 0.116972, -0.495994, 0.224353, 0.116972, -0.515055, 0.415859, 1.06588, 1.75432, 0.293866, 5.47082, -0.585753, 0.854047, 0.549307, 2.23176, 0.799776, 3.91611, 0.2784, 0.272874, 3.48093, 2.19395, 1.043, 5.08818, 0.104675, 0.951374, 3.18035, -0.228815, 0.364871, 2.21821, 2.12719, 0.260108, 4.78411, 2.11189, 0.413824, 3.35873, 1.32775, 0.259156, 5.21776, 1.24098, 0.352819, 5.33702, 2.03728, 0.350564, 5.35658, 0.792492, 0.851024, 4.82075, 0.148674, 0.794702, 3.45395, -0.595131, 0.356325, 0.256205, 1.47176, 0.860533, 5.47529, -0.34377, 0.687701, 1.88963, 1.25818, 0.984494, 0.292671, -0.4376, 1.043, 0.292671, 0.576988, 0.364052, 4.42721, 1.25818, 0.282856, 0.116972, 0.471611, 0.901493, 4.2029, 0.337192, 0.989272, 3.52205, 0.741087, 0.266624, 4.54055, 2.10973, 0.85316, 3.35786, 1.01308, 0.799686, 5.13307, 1.81611, 0.91831, 5.48472, -0.177349, 0.579867, 2.48671, -0.510283, 0.850712, 1.07221, 2.05679, 0.265204, 3.65231, -0.57989, 0.908038, 0.284003, 2.09981, 0.306886, 3.46296, 1.47213, 0.406688, 5.47678, 2.14004, 0.296618, 5.16815, -0.051871, 0.31674, 2.70526, -0.365892, 0.949802, 1.38767, 1.87175, 0.406269, 5.48166, 2.23066, 0.357058, 3.97069, 0.264649, 0.316585, 3.65515, 0.0932669, 0.418558, 3.2936, 0.956234, 0.414895, 5.05252, 2.23286, 0.910725, 4.02797, -0.595277, 0.467248, 0.589381, -0.0656275, 0.848239, 2.81068, 2.02472, 0.258826, 5.05896)
 
+[sub_resource type="Animation" id="Animation_11mwf"]
+resource_name = "spin"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("local")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.2, 1, 0, 0.707107, 0, 0.707107, 0.4, 1, 0, 1, 0, 4.37114e-08, 0.6, 1, 0, -0.707107, 0, 0.707107, 0.8, 1, 0, -3.17865e-08, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eo4gc"]
+_data = {
+"spin": SubResource("Animation_11mwf")
+}
+
 [node name="Boomerang" type="Node3D" node_paths=PackedStringArray("area")]
 script = ExtResource("1_a1br3")
 area = NodePath("local/Area3D")
@@ -23,17 +40,14 @@ area = NodePath("local/Area3D")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_o6e5t")
 
-[node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
-script = ExtResource("4_b1682")
-root = NodePath("..")
-properties = Array[String]([":transform"])
-
 [node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
 script = ExtResource("3_hydvi")
 root = NodePath("..")
 properties = Array[String]([":transform"])
 
 [node name="local" type="Node3D" parent="."]
+transform = Transform3D(-0.760406, 0, 0.649448, 0, 1, 0, -0.649448, 0, -0.760406, 0, 0, 0)
+metadata/_edit_group_ = true
 
 [node name="mesh" parent="local" instance=ExtResource("4_e0hof")]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
@@ -47,6 +61,16 @@ shape = SubResource("ConvexPolygonShape3D_g3njx")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="local/Area3D"]
 shape = SubResource("ConvexPolygonShape3D_nyh0k")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eo4gc")
+}
+
+[node name="StateSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("4_b1682")
+root = NodePath("..")
+properties = Array[String]([":transform"])
 
 [connection signal="body_entered" from="local/Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="local/Area3D" to="." method="_on_area3d_body_exited"]

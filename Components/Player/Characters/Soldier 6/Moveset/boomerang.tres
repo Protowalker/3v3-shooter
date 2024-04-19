@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Ability" load_steps=3 format=3 uid="uid://bh5e52mebyltc"]
 
-[ext_resource type="Script" path="res://Components/Player/Characters/ability.gd" id="1_a1cm6"]
+[ext_resource type="Script" path="res://Components/Player/Characters/Abilities/ability.gd" id="1_a1cm6"]
 [ext_resource type="Texture2D" uid="uid://bm4rhxbxcocy" path="res://icon.svg" id="2_piny5"]
 
 [resource]

@@ -31,15 +31,20 @@ animation/remove_immutable_tracks=true
 import_script/path=""
 _subresources={
 "materials": {
+"Area": {
+"use_external/enabled": true,
+"use_external/path": "res://Projectiles/DeployableShield/boost_area_material.tres"
+},
 "Shield": {
 "use_external/enabled": true,
-"use_external/path": "res://Projectiles/DeployableShield/material.tres"
+"use_external/path": "res://Projectiles/DeployableShield/shield_material.tres"
 }
 },
 "nodes": {
-"PATH:Plane": {
+"PATH:Area": {
+"decomposition/max_num_vertices_per_convex_hull": 5,
 "generate/physics": true,
-"physics/layer": 8
+"physics/body_type": 2
 }
 }
 }
